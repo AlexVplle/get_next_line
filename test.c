@@ -1,12 +1,13 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
+# include "get_next_line.h"
 
 int main(int argc, char const *argv[])
 {
-	char test[30];
+	char *test;
 	int fd = open("test.txt", O_RDONLY);
-	read(fd, test, 2);
+	test = get_next_line(fd);
 	printf("%s", test);
 	return 0;
 }
