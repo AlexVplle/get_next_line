@@ -6,7 +6,7 @@
 /*   By: avapaill <avapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:18:57 by avapaill          #+#    #+#             */
-/*   Updated: 2023/01/27 01:59:55 by avapaill         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:58:23 by avapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,33 @@ char	*get_next_line(int fd)
 {
 	static char	*remain;
 	char		*line;
-	int	index;
-
-	if (fd < 0 && fd > 1024)
-		return ((void *) 0);
-	line = "";
-	get_line(line, fd);
-	return (line);
-}
-
-char	*get_line(char *line, int fd)
-{
 	char		*string_read;
 	ssize_t	result_read;
+	int	index;
 
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return ((void *) 0);
+	line = "";
+	if (remain)
+	{
+		line = ft_strjoin(remain, line);
+		free(remain);
+		remain = (void *) 0;
+	}
 	string_read = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!string_read)
 		return ((void *) 0);
 	result_read = read(fd, string_read, sizeof(char) * BUFFER_SIZE);
 	while (result_read == sizeof(char) * BUFFER_SIZE)
 	{
-		printf("%d\n", find_index(string_read, '\n'));
-		if (find_index(string_read, '\n') != -1)
+		index = find_index(string_read, '\n');
+		if (index != -1)
 		{
-			string_read[find_index(string_read, '\n') + 1] = '\0';
+			remain = malloc(sizeof(char) * (BUFFER_SIZE - index));
+			if (!remain)
+				return ((void *) 0);
+			ft_strlcpy(remain, string_read + index + 1, BUFFER_SIZE - index);
+			string_read[index + 1] = '\0';
 			line = ft_strjoin(line, string_read);
 			return (line);
 		}

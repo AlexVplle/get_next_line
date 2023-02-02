@@ -6,7 +6,7 @@
 /*   By: avapaill <avapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 14:43:05 by avapaill          #+#    #+#             */
-/*   Updated: 2023/01/27 02:05:19 by avapaill         ###   ########.fr       */
+/*   Updated: 2023/02/01 19:12:28 by avapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	*dest = '\0';
 	dest = ft_strcat(dest, s1);
 	return (ft_strcat(dest, s2));
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	length;
+
+	length = ft_strlen(src);
+	if (!dst)
+		return (length);
+	i = 0;
+	while (i + 1 < size && src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	if (i < size)
+		dst[i] = '\0';
+	return (length);
 }

@@ -8,6 +8,9 @@ int main(int argc, char const *argv[])
 	char *test;
 	int fd = open("test.txt", O_RDONLY);
 	test = get_next_line(fd);
-	printf("%s", test);
+	while (test) {
+		printf("%s", test);
+		test = get_next_line(fd);
+	}
 	return 0;
 }
